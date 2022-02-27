@@ -1,0 +1,49 @@
+filters
+transform output that user see, but not transform the data
+filter rerun setiap single update, jadi lebih baik pakai computed untuk value yang harus dimasukkan ke cache
+
+<div>{{ age }}</div>
+<div>{{ age | plusAge(arg1, arg2) }}</div>
+
+data: {
+	age: 17,
+}
+filters: {
+	plusAge(value, arg1, arg2){
+		return value + 1
+	}
+}
+
+
+mixins
+allow you tou create a function that can has a data, methods, computed, etc in one place and you can call it in every component
+membuat sebuah tempat khusus untuk menyimpan data, methods, computed, dll dan dapat dipanggil di file component jika dibutuhkan
+mixins dijalankan pertama, jadi kamu dapat melakukan override terhadapnya
+
+src/mixins/toggle.js
+export const toggle = {
+	data(){
+		return {
+			toggle: false,
+		}
+	}
+}
+
+
+custom directives
+<p v-tack:left="{top: '40', left: '70'}">I will now be tacket onto the page</p>
+
+Vue.directive('tack', {
+	bind(el, binding, vnode){
+		el.style.position = 'fixed'
+		const s = (binding.arg == 'left' ? 'left' : 'right');
+		el.style[s] = binding.value.left + 'px'
+		el.style.top = binding.value.top + 'px'
+	}
+})
+
+el is the element it self
+binding is object that contain argument and value
+
+v-example:arg.modifier="value"
+v-on:submit.preventDefault="login"
